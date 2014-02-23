@@ -24,6 +24,16 @@ CL_IMPL="$(cat $ENV_DIR/CL_IMPL)"
 CL_WEBSERVER="$(cat $ENV_DIR/CL_WEBSERVER)"
 CL_DIR="$CACHE_DIR/$CL_IMPL"
 
+whitelist_regex=${2:-''}
+blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+	echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+	export "$e=$(cat $env_dir/$e)"
+	:
+    done
+fi
+
 echo "-----> compile params: $BUILD_DIR $CACHE_DIR $ENV_DIR"
 
 if [ $RESET_CACHE ]; then

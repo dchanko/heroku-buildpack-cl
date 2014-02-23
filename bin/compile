@@ -57,7 +57,7 @@ case "$(cat $ENV_DIR/CL_IMPL)" in
     exit 1
 esac
 
-case $CL_WEBSERVER in
+case "$(cat $ENV_DIR/CL_WEBSERVER)" in
   hunchentoot)
     ;;
   aserve)

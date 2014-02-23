@@ -21,7 +21,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-CL_DIR="$ENV_DIR/$CL_IMPL"
+CL_DIR="$CACHE_DIR/$CL_IMPL"
 echo "-----> compile params: $BUILD_DIR $CACHE_DIR $ENV_DIR"
 
 if [ $RESET_CACHE ]; then
@@ -29,7 +29,7 @@ if [ $RESET_CACHE ]; then
   rm -rf $CACHE_DIR/*
 fi
 
-case $CL_IMPL in
+case "$ENV_DIR/$CL_IMPL" in
   sbcl)
     S3_BUCKET="sbcl-heroku"
     CL_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/sbcl-1.0.54-x86-64-linux-binary.tar.bz2"

@@ -104,6 +104,5 @@ case $CL_IMPL in
 esac
 echo "-----> Build finished"
 
-ls $BUILD_DIR
-chmod a+x $BUILD_DIR/lispapp
+chmod a+x $BUILD_DIR
 

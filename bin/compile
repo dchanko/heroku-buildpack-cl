@@ -19,9 +19,10 @@ function indent() {
 BUILDPACK_DIR=$(cd $(dirname $0); cd ..; pwd) # absolute path of buildpack
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
 
-CL_DIR="$CACHE_DIR/$CL_IMPL"
-echo "-----> compile params: $BUILD_DIR $CACHE_DIR"
+CL_DIR="$ENV_DIR/$CL_IMPL"
+echo "-----> compile params: $BUILD_DIR $CACHE_DIR $ENV_DIR"
 
 if [ $RESET_CACHE ]; then
   echo "-----> flushing cache"
@@ -94,6 +95,7 @@ echo "$CL_IMPL installed" | indent
 export BUILDPACK_DIR
 export CACHE_DIR
 export BUILD_DIR
+export ENV_DIR
 
 echo "-----> Starting build"
 case $CL_IMPL in

@@ -40,7 +40,7 @@ if [ $RESET_CACHE ]; then
   rm -rf $CACHE_DIR/*
 fi
 
-case "$(cat $ENV_DIR/$CL_IMPL)" in
+case "$(cat $ENV_DIR/CL_IMPL)" in
   sbcl)
     S3_BUCKET="sbcl-heroku"
     CL_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/sbcl-1.0.54-x86-64-linux-binary.tar.bz2"

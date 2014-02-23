@@ -20,8 +20,10 @@ BUILDPACK_DIR=$(cd $(dirname $0); cd ..; pwd) # absolute path of buildpack
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
-
+CL_IMPL="$(cat $ENV_DIR/CL_IMPL)"
+CL_WEBSERVER="$(cat $ENV_DIR/CL_WEBSERVER)"
 CL_DIR="$CACHE_DIR/$CL_IMPL"
+
 echo "-----> compile params: $BUILD_DIR $CACHE_DIR $ENV_DIR"
 
 if [ $RESET_CACHE ]; then
@@ -29,7 +31,6 @@ if [ $RESET_CACHE ]; then
   rm -rf $CACHE_DIR/*
 fi
 
-CL_IMPL="$(cat $ENV_DIR/CL_IMPL)"
 case $CL_IMPL in
   sbcl)
     S3_BUCKET="sbcl-heroku"
@@ -47,7 +48,6 @@ case $CL_IMPL in
     exit 1
 esac
 
-CL_WEBSERVER="$(cat $ENV_DIR/CL_WEBSERVER)"
 case $CL_WEBSERVER in
   hunchentoot)
     ;;

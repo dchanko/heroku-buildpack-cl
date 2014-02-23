@@ -24,10 +24,8 @@ CL_IMPL="$(cat $ENV_DIR/CL_IMPL)"
 CL_WEBSERVER="$(cat $ENV_DIR/CL_WEBSERVER)"
 CL_DIR="$CACHE_DIR/$CL_IMPL"
 
-#whitelist_regex=${2:-''}
-blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
 if [ -d "$ENV_DIR" ]; then
-    echo "Have environment"
+    echo "Have environment variables:"
     for e in $(ls $ENV_DIR); do
 	echo "$e=$(cat $ENV_DIR/$e)"
 	export "$e=$(cat $ENV_DIR/$e)"
@@ -119,6 +117,5 @@ case $CL_IMPL in
 esac
 echo "-----> Build finished"
 
-ls $BUILD_DIR
 chmod a+x $BUILD_DIR/lispapp
 

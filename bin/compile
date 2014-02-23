@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bin/compile <build-dir> <cache-dir>
+# bin/compile <build-dir> <cache-dir> <env-dir>
 
 mktmpdir() {
   dir=$(mktemp -t node-$1-XXXX)
@@ -21,6 +21,17 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+whitelist_regex=${2:-''}
+blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+	echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+	export "$e=$(cat $env_dir/$e)"
+	:
+    done
+fi
+
+
 CL_DIR="$CACHE_DIR/$CL_IMPL"
 echo "-----> compile params: $BUILD_DIR $CACHE_DIR $ENV_DIR"
 
@@ -29,7 +40,7 @@ if [ $RESET_CACHE ]; then
   rm -rf $CACHE_DIR/*
 fi
 
-case "$ENV_DIR/$CL_IMPL" in
+case "$(cat $ENV_DIR/$CL_IMPL)" in
   sbcl)
     S3_BUCKET="sbcl-heroku"
     CL_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/sbcl-1.0.54-x86-64-linux-binary.tar.bz2"

@@ -29,7 +29,8 @@ if [ $RESET_CACHE ]; then
   rm -rf $CACHE_DIR/*
 fi
 
-case "$(cat $ENV_DIR/CL_IMPL)" in
+CL_IMPL="$(cat $ENV_DIR/CL_IMPL)"
+case $CL_IMPL in
   sbcl)
     S3_BUCKET="sbcl-heroku"
     CL_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/sbcl-1.0.54-x86-64-linux-binary.tar.bz2"
@@ -46,7 +47,8 @@ case "$(cat $ENV_DIR/CL_IMPL)" in
     exit 1
 esac
 
-case "$(cat $ENV_DIR/CL_WEBSERVER)" in
+CL_WEBSERVER="$(cat $ENV_DIR/CL_WEBSERVER)"
+case $CL_WEBSERVER in
   hunchentoot)
     ;;
   aserve)
@@ -96,6 +98,8 @@ export BUILDPACK_DIR
 export CACHE_DIR
 export BUILD_DIR
 export ENV_DIR
+export CL_IMPL
+export CL_WEBSERVER
 
 echo "-----> Starting build"
 case $CL_IMPL in
